@@ -16,6 +16,7 @@ class StateContentLayout : FrameLayout {
     private var emptyView: View? = null
     private var errorView: View? = null
 
+    private var currentView: View? = null
     private var loadingViewId: Int = 0
     private var emptyViewId: Int = 0
     private var errorViewId: Int = 0
@@ -62,7 +63,8 @@ class StateContentLayout : FrameLayout {
             loadingView = loadingStub.inflate()
         }
         viewCallBack?.onView(loadingView!!)
-        managerLayoutVisible(loadingVisible = View.VISIBLE)
+        showCurrentView(loadingView)
+//        managerLayoutVisible(loadingVisible = View.VISIBLE)
     }
 
     fun showLoading() {
@@ -90,7 +92,19 @@ class StateContentLayout : FrameLayout {
         }
         viewCallBack?.onView(emptyView!!)
 
-        managerLayoutVisible(emptyVisible = View.VISIBLE)
+        showCurrentView(emptyView)
+//        managerLayoutVisible(emptyVisible = View.VISIBLE)
+
+    }
+
+    private fun showCurrentView(v:View?){
+        //第一次，隐藏dataView
+        if(this.currentView==null){
+            this.dataView?.visibility = View.GONE
+        }
+        this.currentView?.visibility=View.GONE
+        this.currentView = v
+        this.currentView?.visibility=View.VISIBLE
     }
 
     fun showEmpty() {
@@ -105,15 +119,17 @@ class StateContentLayout : FrameLayout {
         }
         viewCallBack?.onView(errorView!!)
 
-        managerLayoutVisible(errorVisible = View.VISIBLE)
+        showCurrentView(errorView)
+//        managerLayoutVisible(errorVisible = View.VISIBLE)
     }
 
-    fun showError(){
+    fun showError() {
         showError(null)
     }
 
     fun showContent() {
-        managerLayoutVisible(dataVisible = View.VISIBLE)
+        showCurrentView(dataView)
+//        managerLayoutVisible(dataVisible = View.VISIBLE)
     }
 
     fun initStateLayout(@LayoutRes loadingViewId: Int = R.layout.layout_loading, @LayoutRes emptyViewId: Int = R.layout.layout_empty, @LayoutRes errorViewId: Int = R.layout.layout_error) {

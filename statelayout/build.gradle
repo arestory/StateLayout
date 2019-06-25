@@ -36,4 +36,8 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "https://jitpack.io"
+        credentials { username "jp_gau5kcl6ve2vpmouhflse8ahfv" }
+    }
 }
